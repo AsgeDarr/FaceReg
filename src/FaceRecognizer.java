@@ -22,7 +22,7 @@ import org.bytedeco.javacpp.videoInputLib.videoInput;
 
 import java.io.File;
 import java.net.URL;
-//GIT TEST
+
 
 
 public class FaceRecognizer extends JFrame 
