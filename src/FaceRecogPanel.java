@@ -107,14 +107,17 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	private String faceName = null;      // name associated with last recognized face
 
 	private FaceRecognizer top;
-
+	
+	//BAChanges - oprettede variable
+	private double resultDistance;
+	Logger log = new Logger();
 
 	public FaceRecogPanel(FaceRecognizer top)
 	{
 		//MIN ÆNDRING
 
-		
-		
+
+
 		this.top = top;
 		setBackground(Color.white);
 		msgFont = new Font("SansSerif", Font.BOLD, 18);
@@ -228,7 +231,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		FrameGrabber grabber = null;
 		//System.out.println("Initializing grabber for " + videoInput.getDeviceName(ID) + " ...");
 		//System.out.println(videoInput.getDeviceName(ID));
-		
+
 		try {
 			grabber = FrameGrabber.createDefault(ID);
 			grabber.setFormat("dshow");       // using DirectShow
@@ -254,7 +257,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 			//Ændret fra ovenstående til nedenstående
 			OpenCVFrameConverter.ToIplImage converter = new OpenCVFrameConverter.ToIplImage();
 			im = converter.convert(grabber.grab());
-				
+
 		}
 		catch(Exception e) 
 		{  System.out.println("Problem grabbing image for camera " + ID);  }
@@ -338,10 +341,15 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	private void writeName(Graphics2D g2)
 	/* write the currently recognized face name */
 	{
-		g2.setColor(Color.YELLOW);
+		g2.setColor(Color.GREEN);
 		g2.setFont(msgFont);
 		if (faceName != null)     // draw at bottom middle
+		//BAChanges - Asge - Margin created.
+		if(resultDistance > 0.8){
+			g2.drawString("Can't get a clear match", WIDTH/2, HEIGHT-10);  
+		}else{
 			g2.drawString("Recognized: " + faceName, WIDTH/2, HEIGHT-10);  
+		}
 	}  // end of writeName()
 
 
@@ -520,7 +528,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 				System.out.println("No face selected");
 				return;
 			}
-			//Ændring fra img.getBufferedImage til nedenstående
+			//BAChanges - Ændring fra img.getBufferedImage til nedenstående
 			clipIm = ImageUtils.clipToRectangle(IplImageToBufferedImage(img), 
 					faceRect.x, faceRect.y, faceRect.width, faceRect.height);
 		}
@@ -540,14 +548,33 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		BufferedImage faceIm = clipToFace(resizeImage(clipIm));
 		// FileUtils.saveImage(faceIm, FACE_FNM);
 		MatchResult result = faceRecog.match(faceIm);
+		resultDistance = result.getMatchDistance();
 		if (result == null)
 			System.out.println("No match found");
 		else {
 			faceName = result.getName();
 			String distStr = String.format("%.4f", result.getMatchDistance());
-			System.out.println("  Matches " + result.getMatchFileName() +
-					"; distance = " + distStr);
-			System.out.println("  Matched name: " + faceName);
+			//BAChanges - Asge - sat margin for hvornår den kender folk:
+			if(result.getMatchDistance() > 0.8){
+				System.out.println("  Can't get a clear match; distance = " + distStr);
+				try {
+					log.Error("Can't get a clear match; distance = " + distStr);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}else{
+				System.out.println("  Matches " + result.getMatchFileName() +
+						"; distance = " + distStr);
+				System.out.println("  Matched name: " + faceName);
+				try {
+					log.Debug("Matches " + result.getMatchFileName() +"; distance = " + distStr);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
 			top.setRecogName(faceName, distStr);
 		}
 		System.out.println("Match time: " + (System.currentTimeMillis() - startTime) + " ms");
@@ -578,7 +605,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		return ImageUtils.clipToRectangle(im, xOffset, yOffset, FACE_WIDTH, FACE_HEIGHT);
 	}  // end of clipToFace()
 
-	
+
 	//Importeret
 	public static BufferedImage IplImageToBufferedImage(IplImage src) {
 		OpenCVFrameConverter.ToIplImage grabberConverter = new OpenCVFrameConverter.ToIplImage();

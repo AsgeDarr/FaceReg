@@ -89,7 +89,7 @@ public class FaceRecognizer extends JFrame
 	{ 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() 
-			{  nameField.setText( faceName + " (" + dist + ")");  
+			{  nameField.setText( faceName + " (" + dist + ")"); 
 			recogBut.setEnabled(true);
 			}
 		});
