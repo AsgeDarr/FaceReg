@@ -32,7 +32,10 @@ public class FaceRecognizer extends JFrame
 	private FaceRecogPanel facePanel;
 	private JButton recogBut;
 	private JTextField nameField;   // where the name (and distance info) appears
-
+	
+	//BAChanges - fields for searching in logs
+	private JTextField searchField;
+	private JButton searchButton;
 
 	public FaceRecognizer()
 	{
@@ -49,6 +52,15 @@ public class FaceRecognizer extends JFrame
 		facePanel = new FaceRecogPanel(this); // the sequence of pictures appear here
 		c.add( facePanel, BorderLayout.CENTER);
 
+		//BAChange - button to search for people in the log
+		searchButton = new JButton("Search Person");
+		searchButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			searchButton.setEnabled(false);
+			facePanel.setLogSearch(searchField.getText());
+			searchButton.setEnabled(true);
+			}
+		});
 
 		// button for recognizing a highlighted face
 		recogBut = new JButton("Recognize Face");
@@ -63,7 +75,12 @@ public class FaceRecognizer extends JFrame
 		nameField = new JTextField(20);   // for the name of the recognized face
 		nameField.setEditable(false);
 
+		searchField = new JTextField(8);   // for the name of the recognized face
+		searchField.setEditable(true);
+		
 		JPanel p = new JPanel();
+		p.add(searchButton);
+		p.add(searchField);
 		p.add(recogBut);
 		p.add( new JLabel("Name: "));
 		p.add( nameField);

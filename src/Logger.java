@@ -65,7 +65,7 @@ public class Logger {
 					BufferedWriter bw = new BufferedWriter(fw);
 					PrintWriter out = new PrintWriter(bw))
 			{
-				out.println(java.time.LocalDateTime.now() + ": \t" + Message);
+				out.println(java.time.LocalDateTime.now() + ";" + Message);
 
 			} catch (IOException e) {
 
@@ -75,7 +75,7 @@ public class Logger {
 					BufferedWriter bw = new BufferedWriter(fw);
 					PrintWriter out = new PrintWriter(bw))
 			{
-				out.println(java.time.LocalDateTime.now() + ": \t" + Message);
+				out.println(java.time.LocalDateTime.now() + ";" + Message);
 
 			} catch (IOException e) {
 

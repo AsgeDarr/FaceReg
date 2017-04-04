@@ -103,11 +103,12 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	private BufferedImage crosshairs;
 
 	private volatile boolean recognizeFace = false;
+	private volatile boolean logSearch = false;
 	private FaceRecognition faceRecog;   // this class comes from the javaFaces example
 	private String faceName = null;      // name associated with last recognized face
 
 	private FaceRecognizer top;
-	
+
 	//BAChanges - oprettede variable
 	private double resultDistance;
 	Logger log = new Logger();
@@ -229,6 +230,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	private FrameGrabber initGrabber(int ID)
 	{
 		FrameGrabber grabber = null;
+		//BAChanges - videoInput.getDeviceName is outdated
 		//System.out.println("Initializing grabber for " + videoInput.getDeviceName(ID) + " ...");
 		//System.out.println(videoInput.getDeviceName(ID));
 
@@ -344,12 +346,12 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		g2.setColor(Color.GREEN);
 		g2.setFont(msgFont);
 		if (faceName != null)     // draw at bottom middle
-		//BAChanges - Asge - Margin created.
-		if(resultDistance > 0.8){
-			g2.drawString("Can't get a clear match", WIDTH/2, HEIGHT-10);  
-		}else{
-			g2.drawString("Recognized: " + faceName, WIDTH/2, HEIGHT-10);  
-		}
+			//BAChanges - Asge - Margin created.
+			if(resultDistance > 0.8){
+				g2.drawString("Can't get a clear match", WIDTH/2, HEIGHT-10);  
+			}else{
+				g2.drawString("Recognized: " + faceName, WIDTH/2, HEIGHT-10);  
+			}
 	}  // end of writeName()
 
 
@@ -515,7 +517,6 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	{  recognizeFace = true;  }
 
 
-
 	private void recogFace(IplImage img)
 	/* clip the image using the current face rectangle, then try to recognize it.
      The use of faceRect is in a synchronized block since it may be being
@@ -555,10 +556,10 @@ public class FaceRecogPanel extends JPanel implements Runnable
 			faceName = result.getName();
 			String distStr = String.format("%.4f", result.getMatchDistance());
 			//BAChanges - Asge - sat margin for hvornår den kender folk:
-			if(result.getMatchDistance() > 0.8){
+			if(result.getMatchDistance() > 0.9){
 				System.out.println("  Can't get a clear match; distance = " + distStr);
 				try {
-					log.Error("Can't get a clear match; distance = " + distStr);
+					log.Error("No match; distance;" + distStr+";");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -567,14 +568,15 @@ public class FaceRecogPanel extends JPanel implements Runnable
 						"; distance = " + distStr);
 				System.out.println("  Matched name: " + faceName);
 				try {
-					log.Debug("Matches " + result.getMatchFileName() +"; distance = " + distStr);
+					log.Debug("Match;" + result.getMatchFileName().substring(faceName.indexOf("/")+1)
+							+"; distance;" + distStr+";");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
-			
+
 			top.setRecogName(faceName, distStr);
 		}
 		System.out.println("Match time: " + (System.currentTimeMillis() - startTime) + " ms");
@@ -606,7 +608,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	}  // end of clipToFace()
 
 
-	//Importeret
+	//BAChanges - Importeret
 	public static BufferedImage IplImageToBufferedImage(IplImage src) {
 		OpenCVFrameConverter.ToIplImage grabberConverter = new OpenCVFrameConverter.ToIplImage();
 		Java2DFrameConverter paintConverter = new Java2DFrameConverter();
@@ -614,5 +616,17 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		return paintConverter.getBufferedImage(frame,1);
 	}
 
-} // end of FaceRecogPanel class
+	// end of FaceRecogPanel class
 
+
+	// ---------------- Log search -------------------------
+
+
+	public void setLogSearch(String searchValue){
+		System.out.println("Searching for: " + searchValue);
+		//logSearch = true; 
+	}
+
+
+
+}
