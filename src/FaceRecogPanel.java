@@ -559,7 +559,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 			if(result.getMatchDistance() > 0.9){
 				System.out.println("  Can't get a clear match; distance = " + distStr);
 				try {
-					log.Error("No match; distance;" + distStr+";");
+					log.Error("unknown;distance;" + distStr+";");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -568,7 +568,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 						"; distance = " + distStr);
 				System.out.println("  Matched name: " + faceName);
 				try {
-					log.Debug("Match;" + result.getMatchFileName().substring(faceName.indexOf("/")+1)
+					log.Debug(result.getMatchFileName().substring(faceName.indexOf("/")+1)
 							+"; distance;" + distStr+";");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -622,10 +622,24 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	// ---------------- Log search -------------------------
 
 
-	public void setLogSearch(String searchValue){
-		System.out.println("Searching for: " + searchValue);
-		//logSearch = true; 
-	}
+//	public void setLogSearch(String searchValue) throws IOException{
+//		System.out.println("Searching for: " + searchValue);
+//		BufferedReader br = new BufferedReader(new FileReader("test.csv"));
+//	    String line =  null;
+//	    HashMap<String,String> logMap = new HashMap<String, String>();
+//
+//	    while((line=br.readLine())!=null){
+//	    	String str[] = line.split(",");
+//	        for(int i=1;i<str.length;i++){
+//	            String arr[] = str[i].split(":");
+//	            logMap.put(arr[0], arr[1]);
+//	        }
+//	    }
+//	    System.out.println(logMap);
+//		
+//		
+//		//logSearch = true; 
+//	}
 
 
 

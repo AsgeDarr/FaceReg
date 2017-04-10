@@ -20,7 +20,6 @@ import org.bytedeco.javacv.*;
 import org.bytedeco.javacpp.*;
 import org.bytedeco.javacpp.videoInputLib.videoInput;
 
-import java.io.File;
 import java.net.URL;
 
 
@@ -36,6 +35,7 @@ public class FaceRecognizer extends JFrame
 	//BAChanges - fields for searching in logs
 	private JTextField searchField;
 	private JButton searchButton;
+	LogSearch logSearch = new LogSearch();
 
 	public FaceRecognizer()
 	{
@@ -57,7 +57,11 @@ public class FaceRecognizer extends JFrame
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			searchButton.setEnabled(false);
-			facePanel.setLogSearch(searchField.getText());
+			try {
+				logSearch.setLogSearch(searchField.getText());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			searchButton.setEnabled(true);
 			}
 		});
@@ -117,13 +121,8 @@ public class FaceRecognizer extends JFrame
 
 	public static void main( String args[] )
 	{ 
-	    //System.load("");
-		
-		//org.bytedeco.javacpp.Loader.load(org.bytedeco.javacpp.opencv_highgui.class);
-		
-		//System.out.println(videoInput.listDevices());
-		
 		new FaceRecognizer();  
+		
 	}
 	
 	

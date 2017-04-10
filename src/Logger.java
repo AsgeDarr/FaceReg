@@ -84,9 +84,4 @@ public class Logger {
 	}
 
 
-
-	public void Trace(){
-
-	}
-
 }
