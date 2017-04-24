@@ -13,6 +13,9 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.io.*;
 
@@ -122,6 +125,22 @@ public class FaceRecognizer extends JFrame
 	public static void main( String args[] )
 	{ 
 		new FaceRecognizer();  
+		
+		
+//		//BAChanges - manuel udregning af afstand
+//		BufferedImage img = null;
+//		try {
+//		    img = ImageIO.read(new File("03_img_resize.png"));
+//		} catch (IOException e) {
+//		}
+//		
+//		ManuelMatching ManuelCalc = new ManuelMatching();
+//		try {
+//			ManuelCalc.findMatch(img);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 	}
 	

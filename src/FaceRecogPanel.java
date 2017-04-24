@@ -29,10 +29,9 @@ import java.util.concurrent.atomic.*;
 
 import org.bytedeco.javacv.*;
 import org.bytedeco.javacv.Frame;
-
-
-
+import org.bytedeco.javacv.OpenCVFrameConverter.ToIplImage;
 import org.bytedeco.javacpp.*;
+import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.bytedeco.javacpp.videoInputLib.*;
 
 import static org.bytedeco.javacpp.opencv_core.*;
@@ -112,7 +111,9 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	//BAChanges - oprettede variable
 	private double resultDistance;
 	Logger log = new Logger();
-
+	ManuelMatching ManuelCalc = new ManuelMatching();
+//	private BufferedImage newImage;
+	
 	public FaceRecogPanel(FaceRecognizer top)
 	{
 		//MIN ÆNDRING
@@ -256,7 +257,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		IplImage im = null;
 		try {
 			//im = grabber.grab();  // take a snap
-			//Ændret fra ovenstående til nedenstående
+			//BAChange - Ændret fra ovenstående til nedenstående
 			OpenCVFrameConverter.ToIplImage converter = new OpenCVFrameConverter.ToIplImage();
 			im = converter.convert(grabber.grab());
 
@@ -346,7 +347,8 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		g2.setColor(Color.GREEN);
 		g2.setFont(msgFont);
 		if (faceName != null)     // draw at bottom middle
-			//BAChanges - Asge - Margin created.
+
+			//BAChanges - Margin created.
 			if(resultDistance > 0.8){
 				g2.drawString("Can't get a clear match", WIDTH/2, HEIGHT-10);  
 			}else{
@@ -411,13 +413,20 @@ public class FaceRecogPanel extends JPanel implements Runnable
 					setRectangle(rect);
 					if (recognizeFace) {
 						recogFace(img);
-						recognizeFace = false;
+						//BAChanges - checking for another face
+						IplImage imgNew = prepImgForAnotherTest(img,faceRect.x, faceRect.y, faceRect.width, faceRect.height );
+						trackFace(imgNew);	
 					}
+				}else{
+					recognizeFace = false;
 				}
+	
+
 				long detectDuration = System.currentTimeMillis() - detectStartTime;
 				System.out.println(" detection/recognition duration: " + detectDuration + "ms");
 				numTasks.getAndDecrement();  // decrement no. of tasks since finished
 			}
+
 		});
 	}  // end of trackFace()
 
@@ -523,6 +532,9 @@ public class FaceRecogPanel extends JPanel implements Runnable
      updated or used for drawing at the same time in other threads.
 	 */
 	{
+		//BAChanges - save af billeder
+//		ManuelCalc.saveImt("01_img_raw", IplImageToBufferedImage(img));
+
 		BufferedImage clipIm = null;
 		synchronized(faceRect) {
 			if (faceRect.width == 0) {
@@ -532,6 +544,11 @@ public class FaceRecogPanel extends JPanel implements Runnable
 			//BAChanges - Ændring fra img.getBufferedImage til nedenstående
 			clipIm = ImageUtils.clipToRectangle(IplImageToBufferedImage(img), 
 					faceRect.x, faceRect.y, faceRect.width, faceRect.height);
+			//BAChanges - save af billeder
+//			ManuelCalc.saveImt("02_img_clipToRectangle", clipIm);
+			
+
+
 		}
 		if (clipIm != null) 
 			matchClip(clipIm);
@@ -547,8 +564,16 @@ public class FaceRecogPanel extends JPanel implements Runnable
 
 		System.out.println("Matching clip...");
 		BufferedImage faceIm = clipToFace(resizeImage(clipIm));
+
+		//BAChanges - save af billeder
+//		ManuelCalc.saveImt("03_img_resize", faceIm);
+
+
 		// FileUtils.saveImage(faceIm, FACE_FNM);
 		MatchResult result = faceRecog.match(faceIm);
+
+
+
 		resultDistance = result.getMatchDistance();
 		if (result == null)
 			System.out.println("No match found");
@@ -615,31 +640,31 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		Frame frame = grabberConverter.convert(src);
 		return paintConverter.getBufferedImage(frame,1);
 	}
+	
+	//BAChanges - importeret
+	IplImage toIplImage(BufferedImage bufImage) {
+
+	    ToIplImage iplConverter = new OpenCVFrameConverter.ToIplImage();
+	    Java2DFrameConverter java2dConverter = new Java2DFrameConverter();
+	    IplImage iplImage = iplConverter.convert(java2dConverter.convert(bufImage));
+	    return iplImage;
+	}
+
+	//BAChagens - Removes allready found face from image.
+	public IplImage prepImgForAnotherTest(IplImage img, int x,int y, int w, int h){
+		BufferedImage newImage = IplImageToBufferedImage(img);
+		for (int i = x; i < x+(125*1.6); i++) {
+            for (int j = y; j < y+(150*1.6); j++) {
+            	newImage.setRGB(i, j, new Color(255, 0, 0, 0).getRGB());
+            }
+        }
+//		ManuelCalc.saveImt("imgFaceBlackedOut", newImage);
+		return toIplImage(newImage);
+	}
 
 	// end of FaceRecogPanel class
 
 
-	// ---------------- Log search -------------------------
-
-
-//	public void setLogSearch(String searchValue) throws IOException{
-//		System.out.println("Searching for: " + searchValue);
-//		BufferedReader br = new BufferedReader(new FileReader("test.csv"));
-//	    String line =  null;
-//	    HashMap<String,String> logMap = new HashMap<String, String>();
-//
-//	    while((line=br.readLine())!=null){
-//	    	String str[] = line.split(",");
-//	        for(int i=1;i<str.length;i++){
-//	            String arr[] = str[i].split(":");
-//	            logMap.put(arr[0], arr[1]);
-//	        }
-//	    }
-//	    System.out.println(logMap);
-//		
-//		
-//		//logSearch = true; 
-//	}
 
 
 
