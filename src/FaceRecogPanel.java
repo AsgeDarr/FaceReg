@@ -102,7 +102,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	private BufferedImage crosshairs;
 
 	private volatile boolean recognizeFace = false;
-	private volatile boolean logSearch = false;
+	
 	private FaceRecognition faceRecog;   // this class comes from the javaFaces example
 	private String faceName = null;      // name associated with last recognized face
 
@@ -112,11 +112,10 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	private double resultDistance;
 	Logger log = new Logger();
 	ManuelMatching ManuelCalc = new ManuelMatching();
-//	private BufferedImage newImage;
+	private volatile boolean logSearch = false;
 	
 	public FaceRecogPanel(FaceRecognizer top)
 	{
-		//MIN ÆNDRING
 
 
 
@@ -414,16 +413,19 @@ public class FaceRecogPanel extends JPanel implements Runnable
 					if (recognizeFace) {
 						recogFace(img);
 						//BAChanges - checking for another face
-						IplImage imgNew = prepImgForAnotherTest(img,faceRect.x, faceRect.y, faceRect.width, faceRect.height );
+						long detectDuration = System.currentTimeMillis() - detectStartTime;
+						System.out.println(" detection/recognition duration: " + detectDuration + "ms");
+						IplImage imgNew = prepImgForAnotherTest(img,rect.x()*IM_SCALE, rect.y()*IM_SCALE, rect.width()*IM_SCALE, rect.height()*IM_SCALE);
 						trackFace(imgNew);	
+						
 					}
 				}else{
 					recognizeFace = false;
 				}
 	
 
-				long detectDuration = System.currentTimeMillis() - detectStartTime;
-				System.out.println(" detection/recognition duration: " + detectDuration + "ms");
+//				long detectDuration = System.currentTimeMillis() - detectStartTime;
+//				System.out.println(" detection/recognition duration: " + detectDuration + "ms");
 				numTasks.getAndDecrement();  // decrement no. of tasks since finished
 			}
 
@@ -507,7 +509,6 @@ public class FaceRecogPanel extends JPanel implements Runnable
 			// calculate movement of the new rectangle compared to the previous one
 			int xMove = (xNew + widthNew/2) - (faceRect.x + faceRect.width/2);
 			int yMove = (yNew + heightNew/2) - (faceRect.y + faceRect.height/2);
-
 			// report movement only if it is 'significant'
 			// if ((Math.abs(xMove)> SMALL_MOVE) || (Math.abs(yMove) > SMALL_MOVE))
 			//  System.out.println("Movement (x,y): (" + xMove + "," + yMove + ")" );
@@ -653,12 +654,18 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	//BAChagens - Removes allready found face from image.
 	public IplImage prepImgForAnotherTest(IplImage img, int x,int y, int w, int h){
 		BufferedImage newImage = IplImageToBufferedImage(img);
-		for (int i = x; i < x+(125*1.6); i++) {
-            for (int j = y; j < y+(150*1.6); j++) {
+		//BAChanges - howCloseToTheMiddelSaclingFactor -
+		//The closer to zero howCloseToTheMiddel is the longer away from the cam is the face
+		double howCloseToTheMiddelSaclingFactor =  Math.abs(img.width()/2-x)*0.014;
+		int scaling = (int) Math.round(40/howCloseToTheMiddelSaclingFactor);
+//		System.out.println("Scaling = " + howCloseToTheMiddelSaclingFactor + " calc = " + scaling);
+		
+		for (int i = x+scaling; i < x+w-scaling; i++) {  //+(125*1.6)
+            for (int j = y+scaling; j < y+h-scaling; j++) { //+(150*1.6)
             	newImage.setRGB(i, j, new Color(255, 0, 0, 0).getRGB());
             }
         }
-//		ManuelCalc.saveImt("imgFaceBlackedOut", newImage);
+ 		//ManuelCalc.saveImt("imgFaceBlackedOut", newImage);
 		return toIplImage(newImage);
 	}
 
