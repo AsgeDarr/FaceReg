@@ -58,8 +58,8 @@ public class ManuelMatching {
 
 	// ----------------- Pieced together from from FaceRecognition in JavaFaces 2 -----------------
 
-	public ManuelMatching()
-	{  this(22); }
+//	public ManuelMatching()
+//	{  this(22); }
 
 
 	public ManuelMatching(int numEigenFaces)

@@ -134,7 +134,7 @@ public class FaceRecognizer extends JFrame
 		} catch (IOException e) {
 		}
 		
-		ManuelMatching ManuelCalc = new ManuelMatching();
+		ManuelMatching ManuelCalc = new ManuelMatching(22);
 		try {
 			ManuelCalc.findMatch(img);
 		} catch (IOException e) {

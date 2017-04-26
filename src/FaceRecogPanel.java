@@ -111,7 +111,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	//BAChanges - oprettede variable
 	private double resultDistance;
 	Logger log = new Logger();
-	ManuelMatching ManuelCalc = new ManuelMatching();
+	ManuelMatching ManuelCalc = new ManuelMatching(22);
 	private volatile boolean logSearch = false;
 	
 	public FaceRecogPanel(FaceRecognizer top)
