@@ -567,7 +567,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		BufferedImage faceIm = clipToFace(resizeImage(clipIm));
 
 		//BAChanges - save af billeder
-//		ManuelCalc.saveImt("03_img_resize", faceIm);
+		ManuelCalc.saveImt("03_img_resize", faceIm);
 
 
 		// FileUtils.saveImage(faceIm, FACE_FNM);

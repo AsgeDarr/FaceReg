@@ -137,3 +137,4 @@
 2017-04-24T21:55:44.020;suntorn3.png; distance;0.6579;
 2017-04-24T21:55:49.475;suntorn3.png; distance;0.7756;
 2017-04-24T21:55:52.159;aree3.png; distance;0.7511;
+2017-04-26T22:48:28.654;asge1.png; distance;0.7849;

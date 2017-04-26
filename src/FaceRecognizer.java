@@ -130,7 +130,7 @@ public class FaceRecognizer extends JFrame
 		//BAChanges - manuel udregning af afstand
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("01_img_raw.png"));
+		    img = ImageIO.read(new File("03_img_resize.png"));
 		} catch (IOException e) {
 		}
 		
