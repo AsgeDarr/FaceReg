@@ -109,7 +109,7 @@ public class ManuelMatching {
 		// limit mapping to use only numEFs eigenfaces
 
 		double[] dists = getDists(imWeights);
-		saveArray("03_Distance_Array", dists);
+		saveArray("06_Distance_Array", dists);
 		
 		ImageDistanceInfo distInfo = getMinDistInfo(dists);
 		System.out.println("min Distinfo " + distInfo.getValue());

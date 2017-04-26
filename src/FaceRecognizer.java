@@ -124,23 +124,23 @@ public class FaceRecognizer extends JFrame
 
 	public static void main( String args[] )
 	{ 
-		new FaceRecognizer();  
+//		new FaceRecognizer();  
 		
 		
-//		//BAChanges - manuel udregning af afstand
-//		BufferedImage img = null;
-//		try {
-//		    img = ImageIO.read(new File("03_img_resize.png"));
-//		} catch (IOException e) {
-//		}
-//		
-//		ManuelMatching ManuelCalc = new ManuelMatching();
-//		try {
-//			ManuelCalc.findMatch(img);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		//BAChanges - manuel udregning af afstand
+		BufferedImage img = null;
+		try {
+		    img = ImageIO.read(new File("01_img_raw.png"));
+		} catch (IOException e) {
+		}
+		
+		ManuelMatching ManuelCalc = new ManuelMatching();
+		try {
+			ManuelCalc.findMatch(img);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
