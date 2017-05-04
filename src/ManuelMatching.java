@@ -21,7 +21,7 @@ public class ManuelMatching {
 
 
 	public void saveImt(String title, BufferedImage img){
-		File outputfile = new File(title + ".png");
+		File outputfile = new File("manuelMatchFiles/" + title + ".png");
 		try {
 			ImageIO.write(img, "png", outputfile);
 		} catch (IOException e) {
@@ -32,7 +32,7 @@ public class ManuelMatching {
 
 	public void saveArray(String title, double[] array) throws IOException{
 
-		FileWriter writer = new FileWriter(title + ".csv");
+		FileWriter writer = new FileWriter("manuelMatchFiles/" + title + ".csv");
 		for(int i = 0; i < array.length; i++)
 		{
 			writer.append(array[i]+"");
@@ -43,7 +43,7 @@ public class ManuelMatching {
 	}
 
 	public void saveMatrix(String title, Matrix2D Matrix) throws IOException{
-		FileWriter writer = new FileWriter(title + ".csv");
+		FileWriter writer = new FileWriter("manuelMatchFiles/" + title + ".csv");
 		for(int i = 0; i <=Matrix.columns()-1; i++)
 		{
 			for(int j = 0;j<=Matrix.rows()-1;j++){
@@ -90,26 +90,26 @@ public class ManuelMatching {
 	public MatchResult findMatch(BufferedImage im) throws IOException
 	{
 		double[] imArr = ImageUtils.createArrFromIm(im);    // change image into an array
-		saveArray("01_imgArray", imArr);
+		saveArray("04_imgArray", imArr);
 
 		// convert array to normalized 1D matrix
 		Matrix2D imMat = new Matrix2D(imArr, 1);
-		saveMatrix("02_1D_Matrix",imMat);
+		saveMatrix("05_1D_Matrix",imMat);
 
 
 		imMat.normalise();
-		saveMatrix("03_Normalised_1D_Matrix",imMat);
+		saveMatrix("06_Normalised_1D_Matrix",imMat);
 		
 		imMat.subtract(new Matrix2D(bundle.getAvgImage(), 1));  // subtract mean image
-		saveMatrix("04_Sub_Mean_1D_Matrix",imMat);
+		saveMatrix("07_Sub_Mean_1D_Matrix",imMat);
 		
 		Matrix2D imWeights = getImageWeights(numEFs, imMat); 
-		saveMatrix("05_Weights_Matrix",imMat);
+		saveMatrix("08_Weights_Matrix",imMat);
 		// map image into eigenspace, returning its coordinates (weights);
 		// limit mapping to use only numEFs eigenfaces
 
 		double[] dists = getDists(imWeights);
-		saveArray("06_Distance_Array", dists);
+		saveArray("09_Distance_Array", dists);
 		
 		ImageDistanceInfo distInfo = getMinDistInfo(dists);
 		System.out.println("min Distinfo " + distInfo.getValue());
