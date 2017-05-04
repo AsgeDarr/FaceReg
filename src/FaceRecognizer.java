@@ -125,7 +125,6 @@ public class FaceRecognizer extends JFrame
 	public static void main( String args[] )
 	{ 
 		new FaceRecognizer();  
-		
 //		
 //		//BAChanges - manuel udregning af afstand
 //		BufferedImage img = null;
@@ -140,7 +139,16 @@ public class FaceRecognizer extends JFrame
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
+////		}
+//=======
+//		ManuelMatching ManuelCalc = new ManuelMatching();
+//		try {
+//			ManuelCalc.findMatch(img);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
 //		}
+//>>>>>>> parent of 831768b... Flere test added
 		
 	}
 	
