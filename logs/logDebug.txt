@@ -138,3 +138,11 @@
 2017-04-24T21:55:49.475;suntorn3.png; distance;0.7756;
 2017-04-24T21:55:52.159;aree3.png; distance;0.7511;
 2017-04-26T22:48:28.654;asge1.png; distance;0.7849;
+2017-05-04T14:30:33.599;peeranut2.png; distance;0.8401;
+2017-05-04T14:30:34.813;peeranut2.png; distance;0.8753;
+2017-05-04T14:39:04.449;unknown;distance;1.1339;
+2017-05-04T14:39:06.777;unknown;distance;1.0209;
+2017-05-04T14:39:09.628;unknown;distance;1.0432;
+2017-05-04T14:39:14.395;unknown;distance;0.9877;
+2017-05-04T14:39:16.541;unknown;distance;1.1393;
+2017-05-04T14:39:17.695;unknown;distance;1.0967;

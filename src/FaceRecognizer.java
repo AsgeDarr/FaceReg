@@ -38,7 +38,7 @@ public class FaceRecognizer extends JFrame
 	//BAChanges - fields for searching in logs
 	private JTextField searchField;
 	private JButton searchButton;
-	LogSearch logSearch = new LogSearch();
+	Logger log = new Logger();
 
 	public FaceRecognizer()
 	{
@@ -61,7 +61,7 @@ public class FaceRecognizer extends JFrame
 			public void actionPerformed(ActionEvent e) {
 			searchButton.setEnabled(false);
 			try {
-				logSearch.setLogSearch(searchField.getText());
+				log.setLogSearch(searchField.getText());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -124,23 +124,23 @@ public class FaceRecognizer extends JFrame
 
 	public static void main( String args[] )
 	{ 
-//		new FaceRecognizer();  
+		new FaceRecognizer();  
 		
 		
-		//BAChanges - manuel udregning af afstand
-		BufferedImage img = null;
-		try {
-		    img = ImageIO.read(new File("03_img_resize.png"));
-		} catch (IOException e) {
-		}
-		
-		ManuelMatching ManuelCalc = new ManuelMatching(22);
-		try {
-			ManuelCalc.findMatch(img);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		//BAChanges - manuel udregning af afstand
+//		BufferedImage img = null;
+//		try {
+//		    img = ImageIO.read(new File("03_img_resize.png"));
+//		} catch (IOException e) {
+//		}
+//		
+//		ManuelMatching ManuelCalc = new ManuelMatching(22);
+//		try {
+//			ManuelCalc.findMatch(img);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 	}
 	

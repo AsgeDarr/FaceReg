@@ -20,3 +20,9 @@
 2017-04-10T13:11:07.085;unknown;distance;0.9264;
 2017-04-24T21:20:40.218;unknown;distance;0.9305;
 2017-04-24T21:37:45.217;unknown;distance;0.9614;
+2017-05-04T14:39:04.446;unknown;distance;1.1339;
+2017-05-04T14:39:06.776;unknown;distance;1.0209;
+2017-05-04T14:39:09.627;unknown;distance;1.0432;
+2017-05-04T14:39:14.394;unknown;distance;0.9877;
+2017-05-04T14:39:16.541;unknown;distance;1.1393;
+2017-05-04T14:39:17.694;unknown;distance;1.0967;
