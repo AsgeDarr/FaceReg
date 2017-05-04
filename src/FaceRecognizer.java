@@ -38,7 +38,7 @@ public class FaceRecognizer extends JFrame
 	//BAChanges - fields for searching in logs
 	private JTextField searchField;
 	private JButton searchButton;
-	LogSearch logSearch = new LogSearch();
+//	LogSearch logSearch = new LogSearch();
 
 	public FaceRecognizer()
 	{
@@ -60,11 +60,11 @@ public class FaceRecognizer extends JFrame
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			searchButton.setEnabled(false);
-			try {
-				logSearch.setLogSearch(searchField.getText());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+//			try {
+////				log.setLogSearch(searchField.getText());
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
 			searchButton.setEnabled(true);
 			}
 		});
@@ -124,23 +124,23 @@ public class FaceRecognizer extends JFrame
 
 	public static void main( String args[] )
 	{ 
-//		new FaceRecognizer();  
+		new FaceRecognizer();  
 		
-		
-		//BAChanges - manuel udregning af afstand
-		BufferedImage img = null;
-		try {
-		    img = ImageIO.read(new File("01_img_raw.png"));
-		} catch (IOException e) {
-		}
-		
-		ManuelMatching ManuelCalc = new ManuelMatching();
-		try {
-			ManuelCalc.findMatch(img);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		
+//		//BAChanges - manuel udregning af afstand
+//		BufferedImage img = null;
+//		try {
+//		    img = ImageIO.read(new File("01_img_raw.png"));
+//		} catch (IOException e) {
+//		}
+//		
+//		ManuelMatching ManuelCalc = new ManuelMatching();
+//		try {
+//			ManuelCalc.findMatch(img);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 	}
 	
