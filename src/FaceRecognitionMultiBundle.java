@@ -1,4 +1,8 @@
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class FaceRecognitionMultiBundle {
@@ -8,16 +12,13 @@ public class FaceRecognitionMultiBundle {
 	private FaceBundle bundle = null;
 	private double[][] weights = null;    // training image weights
 	private int numEFs = 0;     // number of eigenfaces to be used in the recognition
+	private static String EF_CACHE = null;
 
 
-
-	public FaceRecognitionMultiBundle()
-	{  this(0); }
-
-
-	public FaceRecognitionMultiBundle(int numEigenFaces)
+	public FaceRecognitionMultiBundle(int numEigenFaces, String cache)
 	{
-		bundle = FileUtils.readCache();
+		EF_CACHE = "EF_CACHE_"+ cache;
+		bundle = readCache();
 		if (bundle == null) {
 			System.out.println("You must build an Eigenfaces cache before any matching");
 			System.exit(1);
@@ -157,42 +158,75 @@ public class FaceRecognitionMultiBundle {
 
 
 
-	// ----------------------- test rig -------------------------
+//	// ----------------------- test rig -------------------------
+//
+//
+//	public static void main(String[] args)
+//	{
+//		if ((args.length < 1) || (args.length > 2)) {
+//			System.out.println("Usage: java FaceRecognition imagePngFnm [numberOfEigenfaces]");
+//			return;
+//		}
+//
+//		int numEFs = 0;
+//		if (args.length == 2) {
+//			try {
+//				numEFs = Integer.parseInt(args[1]);
+//			}
+//			catch(Exception e)
+//			{ System.out.println("Number argument, " + args[1] + " must be an integer");  }
+//		}
+//
+//		long startTime = System.currentTimeMillis();
+//
+//		FaceRecognition fr = new FaceRecognition(numEFs);
+//		MatchResult result = fr.match(args[0]);
+//
+//		if (result == null)
+//			System.out.println("No match found");
+//		else {
+//			System.out.println();
+//			System.out.print("Matches image in " + result.getMatchFileName());
+//			System.out.printf("; distance = %.4f\n", result.getMatchDistance());
+//			System.out.println("Matched name: " + result.getName() );
+//		}
+//		System.out.println("Total time taken: " + (System.currentTimeMillis() - startTime) + " ms");
+//	}  // end of main()
+//
 
 
-	public static void main(String[] args)
-	{
-		if ((args.length < 1) || (args.length > 2)) {
-			System.out.println("Usage: java FaceRecognition imagePngFnm [numberOfEigenfaces]");
-			return;
-		}
+	
+	// ------------- Reading Cache --------------
+	public static FaceBundle readCache()
+	  // read the FaceBundle object from a file called EF_CACHE
+	  {
+	    FaceBundle bundle = null;
+	    try {
+	      ObjectInputStream ois = new ObjectInputStream(
+	                                    new FileInputStream("multiBundle/multiCache/" + EF_CACHE));
+	      bundle = (FaceBundle) ois.readObject();
+	      ois.close();
+	      System.out.println("Using cache: " + EF_CACHE);
+	      return bundle;
+	    }
+	    catch (FileNotFoundException e) {
+	      System.out.println("Missing cache: " + EF_CACHE);
+	    }
+	    catch (IOException e) {
+	      System.out.println("Read error for cache: " + EF_CACHE);
+	    }
+	    catch (ClassNotFoundException e) {
+	      System.out.println(e);
+	    }
+	    return bundle;
+	  }	 // end of readCache()
 
-		int numEFs = 0;
-		if (args.length == 2) {
-			try {
-				numEFs = Integer.parseInt(args[1]);
-			}
-			catch(Exception e)
-			{ System.out.println("Number argument, " + args[1] + " must be an integer");  }
-		}
-
-		long startTime = System.currentTimeMillis();
-
-		FaceRecognition fr = new FaceRecognition(numEFs);
-		MatchResult result = fr.match(args[0]);
-
-		if (result == null)
-			System.out.println("No match found");
-		else {
-			System.out.println();
-			System.out.print("Matches image in " + result.getMatchFileName());
-			System.out.printf("; distance = %.4f\n", result.getMatchDistance());
-			System.out.println("Matched name: " + result.getName() );
-		}
-		System.out.println("Total time taken: " + (System.currentTimeMillis() - startTime) + " ms");
-	}  // end of main()
-
-
-
+	
+	
+	
+	
+	
+	
+	
 }  // end of FaceRecognition class
 

@@ -113,6 +113,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	Logger log = new Logger();
 	ManuelMatching ManuelCalc = new ManuelMatching(22);
 	private volatile boolean logSearch = false;
+	private ExtraMatch faceRecogExtra;
 	
 	public FaceRecogPanel(FaceRecognizer top)
 	{
@@ -126,8 +127,8 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		// load the crosshairs image (a transparent PNG)
 		crosshairs = loadImage(CROSSHAIRS_FNM);
 
-		faceRecog = new FaceRecognition(22);
-
+		faceRecog = new FaceRecognition(22); 
+		faceRecogExtra = new ExtraMatch();
 		executor = Executors.newSingleThreadExecutor();
 		/* this executor manages a single thread with an unbounded queue.
          Only one task can be executed at a time, the others wait.
@@ -572,8 +573,12 @@ public class FaceRecogPanel extends JPanel implements Runnable
 
 		// FileUtils.saveImage(faceIm, FACE_FNM);
 		MatchResult result = faceRecog.match(faceIm);
-
-
+		
+		System.out.println("PatternMatch starts\n" );
+		MatchResult patternResult = faceRecogExtra.patternMatching(faceIm, 6);
+//		System.out.println("PatterResultName = " + patternResult.getName().substring(patternResult.getName().lastIndexOf("/") + 1) +
+//				" Distance : " + patternResult.getMatchDistance());
+		System.out.println();
 
 		resultDistance = result.getMatchDistance();
 		if (result == null)

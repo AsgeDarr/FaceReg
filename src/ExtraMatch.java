@@ -12,15 +12,87 @@ import javax.imageio.ImageIO;
 
 public class ExtraMatch {
 	private static String EF_CACHE = "";
-	public boolean buildImageCache = true; 
+	public boolean buildImageCache = false; 
 	public boolean buildImageManipulations = false; 
 	public static String TRAINING_DIR = "trainingImages";
 	private static final String EIGENFACES_PREFIX = "eigen_";
 	private static final String FILE_EXT = ".png";
+	private FaceRecognitionMultiBundle faceRecogMulBunTopLeft = null;
+	private FaceRecognitionMultiBundle faceRecogMulBunTopRight = null;
+	private FaceRecognitionMultiBundle faceRecogMulBunTop = null;
+	private FaceRecognitionMultiBundle faceRecogMulBunBottom = null;
+	private FaceRecognitionMultiBundle faceRecogMulBunLeft = null;
+	private FaceRecognitionMultiBundle faceRecogMulBunRight = null;
 
 	public ExtraMatch(){
+		faceRecogMulBunTopLeft = new FaceRecognitionMultiBundle(35,"topLeft");
+		faceRecogMulBunTopRight = new FaceRecognitionMultiBundle(35,"topRight");
+		faceRecogMulBunTop = new FaceRecognitionMultiBundle(35,"top");
+		faceRecogMulBunBottom = new FaceRecognitionMultiBundle(35,"bottom");
+		faceRecogMulBunLeft = new FaceRecognitionMultiBundle(35,"left");
+		faceRecogMulBunRight = new FaceRecognitionMultiBundle(35,"right");
+	}
+
+	public MatchResult patternMatching(BufferedImage faceIm, int level){
+		MatchResult result = null;
+		for(int i = 0; i < level; i++){
+			if(i == 0){
+				result = faceRecogMulBunTop.match(cropImage(faceIm,"top"));
+				System.out.println("TopPatterResultName = " + result.getName().substring(result.getName().lastIndexOf("/") + 1) +
+						" Distance : " + result.getMatchDistance());
+			}
+			if(i == 1){
+				result = faceRecogMulBunBottom.match(cropImage(faceIm,"bottom"));
+				System.out.println("BottonPatterResultName = " + result.getName().substring(result.getName().lastIndexOf("/") + 1) +
+						" Distance : " + result.getMatchDistance());
+			}
+			if(i == 2){
+				result = faceRecogMulBunLeft.match(cropImage(faceIm,"left"));
+				System.out.println("LeftPatterResultName = " + result.getName().substring(result.getName().lastIndexOf("/") + 1) +
+						" Distance : " + result.getMatchDistance());
+			}
+			if(i == 3){
+				result = faceRecogMulBunRight.match(cropImage(faceIm,"right"));
+				System.out.println("RightPatterResultName = " + result.getName().substring(result.getName().lastIndexOf("/") + 1) +
+						" Distance : " + result.getMatchDistance());
+			}
+			if(i == 4){
+				result = faceRecogMulBunTopLeft.match(cropImage(faceIm,"topLeft"));
+				System.out.println("TLeftPatterResultName = " + result.getName().substring(result.getName().lastIndexOf("/") + 1) +
+						" Distance : " + result.getMatchDistance());
+			}
+			if(i == 5){
+				result = faceRecogMulBunTopRight.match(cropImage(faceIm,"topRight"));
+				System.out.println("TRightPatterResultName = " + result.getName().substring(result.getName().lastIndexOf("/") + 1) +
+						" Distance : " + result.getMatchDistance());
+			}
+		}
+		return result;
+	}
+
+	public BufferedImage cropImage(BufferedImage image, String type){
+		if(type == "topLeft"){
+			return image.getSubimage(0, 0, image.getWidth()/2, image.getHeight()/2);
+		}
+		if(type == "topRight"){
+			return image.getSubimage(image.getWidth()/2, 0, image.getWidth()/2, image.getHeight()/2);
+		}
+		if(type == "top"){
+			return image.getSubimage(0, 0, image.getWidth(), image.getHeight()/2);
+		}
+		if(type == "bottom"){
+			return image.getSubimage(0, image.getHeight()/2, image.getWidth(), image.getHeight()/2);
+		}
+		if(type == "left"){
+			return image.getSubimage(0, 0, image.getWidth()/2, image.getHeight());
+		}
+		if(type == "right"){
+			return image.getSubimage(image.getWidth()/2, 0, image.getWidth()/2, image.getHeight());
+		}
+		else return image;
 
 	}
+
 
 	public void buildEigenFacesPatterns() throws IOException{
 
@@ -48,8 +120,11 @@ public class ExtraMatch {
 	}
 
 
+
+	//--------------- building caches ----------------
+
 	public void createCache(String name){
-		EF_CACHE = "EF_CACHE_images" + name;
+		EF_CACHE = "EF_CACHE_" + name;
 		TRAINING_DIR = "multiBundle/" + name + "/";
 		ArrayList<String> imagesTopLeft = getTrainingFnms(); 
 		build(imagesTopLeft, 22, "multiBundle/eigen/" + name + "/");
@@ -68,11 +143,6 @@ public class ExtraMatch {
 			BufferedImage imgBottom = ims[i].getSubimage(0,  ims[i].getHeight()/2, ims[i].getWidth(), ims[i].getHeight()/2);
 			BufferedImage imgLeft = ims[i].getSubimage(0, 0, ims[i].getWidth()/2, ims[i].getHeight());
 			BufferedImage imgRight= ims[i].getSubimage(ims[i].getWidth()/2, 0, ims[i].getWidth()/2, ims[i].getHeight());
-
-
-
-
-
 			ImageIO.write(imgTopLeft, "png", new File("multiBundle/topLeft/" + imgDirs.get(i).substring(imgDirs.get(i).lastIndexOf("/") + 1)));
 			ImageIO.write(imgTopRight, "png", new File("multiBundle/topRight/" + imgDirs.get(i).substring(imgDirs.get(i).lastIndexOf("/") + 1)));
 			ImageIO.write(imgTop, "png", new File("multiBundle/top/" + imgDirs.get(i).substring(imgDirs.get(i).lastIndexOf("/") + 1)));
