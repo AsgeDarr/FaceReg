@@ -124,7 +124,18 @@ public class FaceRecognizer extends JFrame
 
 	public static void main( String args[] )
 	{ 
-		new FaceRecognizer();  
+//		new FaceRecognizer();  
+		
+		
+		//Building images
+		ExtraMatch EM = new ExtraMatch();
+		
+		try {
+			EM.buildEigenFacesPatterns();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 //		//BAChanges - manuel udregning af afstand
