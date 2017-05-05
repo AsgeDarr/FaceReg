@@ -47,7 +47,7 @@ public class JUnitTests {
 	@Test
 	public void testSaveImt() throws IOException {	
 		String title = "testPNG";
-		BufferedImage img = ImageIO.read(new File("03_img_resize.png"));
+		BufferedImage img = ImageIO.read(new File("manuelMatchFiles/03_img_resize.png"));
 		ManuelMatchingTest.saveImt(title, img);
 		
 		File file = new File("testPNG.png");
@@ -83,12 +83,12 @@ public class JUnitTests {
 	public void testFindMatch() throws IOException{
 		BufferedImage img = ImageIO.read(new File("JUnitFace.png"));
 		ManuelMatchingTest.findMatch(img);
-		assertTrue(new File("01_imgArray.csv").exists());
-		assertTrue(new File("02_1D_Matrix.csv").exists());
-		assertTrue(new File("03_Normalised_1D_Matrix.csv").exists());
-		assertTrue(new File("04_Sub_Mean_1D_Matrix.csv").exists());
-		assertTrue(new File("05_Weights_Matrix.csv").exists());
-		assertTrue(new File("06_Distance_Array.csv").exists());
+		assertTrue(new File("manuelMatchFiles/01_imgArray.csv").exists());
+		assertTrue(new File("manuelMatchFiles/02_1D_Matrix.csv").exists());
+		assertTrue(new File("manuelMatchFiles/03_Normalised_1D_Matrix.csv").exists());
+		assertTrue(new File("manuelMatchFiles/04_Sub_Mean_1D_Matrix.csv").exists());
+		assertTrue(new File("manuelMatchFiles/05_Weights_Matrix.csv").exists());
+		assertTrue(new File("manuelMatchFiles/06_Distance_Array.csv").exists());
 		
 	}
 	
