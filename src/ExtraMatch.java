@@ -25,49 +25,70 @@ public class ExtraMatch {
 	private FaceRecognitionMultiBundle faceRecogMulBunRight = null;
 
 	public ExtraMatch(){
-		faceRecogMulBunTopLeft = new FaceRecognitionMultiBundle(35,"topLeft");
-		faceRecogMulBunTopRight = new FaceRecognitionMultiBundle(35,"topRight");
-		faceRecogMulBunTop = new FaceRecognitionMultiBundle(35,"top");
-		faceRecogMulBunBottom = new FaceRecognitionMultiBundle(35,"bottom");
-		faceRecogMulBunLeft = new FaceRecognitionMultiBundle(35,"left");
-		faceRecogMulBunRight = new FaceRecognitionMultiBundle(35,"right");
+		faceRecogMulBunTopLeft = new FaceRecognitionMultiBundle(75,"topLeft");
+		faceRecogMulBunTopRight = new FaceRecognitionMultiBundle(75,"topRight");
+		faceRecogMulBunTop = new FaceRecognitionMultiBundle(75,"top");
+		faceRecogMulBunBottom = new FaceRecognitionMultiBundle(75,"bottom");
+		faceRecogMulBunLeft = new FaceRecognitionMultiBundle(75,"left");
+		faceRecogMulBunRight = new FaceRecognitionMultiBundle(75,"right");
 	}
 
-	public MatchResult patternMatching(BufferedImage faceIm, int level){
-		MatchResult result = null;
+	public MatchResult[] patternMatching(BufferedImage faceIm, int level){
+		//		MatchResult result = null;
+
+		MatchResult[] result = new MatchResult[6];
 		for(int i = 0; i < level; i++){
 			if(i == 0){
-				result = faceRecogMulBunTop.match(cropImage(faceIm,"top"));
-				System.out.println("TopPatterResultName = " + result.getName().substring(result.getName().lastIndexOf("/") + 1) +
-						" Distance : " + result.getMatchDistance());
+				result[0] = faceRecogMulBunTop.match(cropImage(faceIm,"top"));
+				System.out.println("TopPatterResultName = " + result[0].getName().substring(result[0].getName().lastIndexOf("/") + 1) +
+						" Distance : " + result[0].getMatchDistance());
 			}
 			if(i == 1){
-				result = faceRecogMulBunBottom.match(cropImage(faceIm,"bottom"));
-				System.out.println("BottonPatterResultName = " + result.getName().substring(result.getName().lastIndexOf("/") + 1) +
-						" Distance : " + result.getMatchDistance());
+				result[1] = faceRecogMulBunBottom.match(cropImage(faceIm,"bottom"));
+				System.out.println("BottonPatterResultName = " + result[1].getName().substring(result[1].getName().lastIndexOf("/") + 1) +
+						" Distance : " + result[1].getMatchDistance());
 			}
 			if(i == 2){
-				result = faceRecogMulBunLeft.match(cropImage(faceIm,"left"));
-				System.out.println("LeftPatterResultName = " + result.getName().substring(result.getName().lastIndexOf("/") + 1) +
-						" Distance : " + result.getMatchDistance());
+				result[2] = faceRecogMulBunLeft.match(cropImage(faceIm,"left"));
+				System.out.println("LeftPatterResultName = " + result[2].getName().substring(result[2].getName().lastIndexOf("/") + 1) +
+						" Distance : " + result[2].getMatchDistance());
 			}
 			if(i == 3){
-				result = faceRecogMulBunRight.match(cropImage(faceIm,"right"));
-				System.out.println("RightPatterResultName = " + result.getName().substring(result.getName().lastIndexOf("/") + 1) +
-						" Distance : " + result.getMatchDistance());
+				result[3] = faceRecogMulBunRight.match(cropImage(faceIm,"right"));
+				System.out.println("RightPatterResultName = " + result[3].getName().substring(result[3].getName().lastIndexOf("/") + 1) +
+						" Distance : " + result[3].getMatchDistance());
 			}
 			if(i == 4){
-				result = faceRecogMulBunTopLeft.match(cropImage(faceIm,"topLeft"));
-				System.out.println("TLeftPatterResultName = " + result.getName().substring(result.getName().lastIndexOf("/") + 1) +
-						" Distance : " + result.getMatchDistance());
+				result[4] = faceRecogMulBunTopLeft.match(cropImage(faceIm,"topLeft"));
+				System.out.println("TLeftPatterResultName = " + result[4].getName().substring(result[4].getName().lastIndexOf("/") + 1) +
+						" Distance : " + result[4].getMatchDistance());
 			}
 			if(i == 5){
-				result = faceRecogMulBunTopRight.match(cropImage(faceIm,"topRight"));
-				System.out.println("TRightPatterResultName = " + result.getName().substring(result.getName().lastIndexOf("/") + 1) +
-						" Distance : " + result.getMatchDistance());
+				result[5] = faceRecogMulBunTopRight.match(cropImage(faceIm,"topRight"));
+				System.out.println("TRightPatterResultName = " + result[5].getName().substring(result[5].getName().lastIndexOf("/") + 1) +
+						" Distance : " + result[5].getMatchDistance());
 			}
 		}
+//		String[] name = new String[result.length];
+//		int maxCount = 0;
+//		for (int i = 0; i < result.length; ++i) {
+//			int count = 0;
+//			for (int j = 0; j < result.length; ++j) {
+//				if (result[i].getName().substring(result[5].getName().lastIndexOf("/") + 1) == 
+//												result[j].getName().substring(result[5].getName().lastIndexOf("/") + 1)) ++count;
+//			}
+//			if (count > maxCount) {
+//				maxCount = count;
+//				for(int k = result.length-1; k>= 0; k--){
+//					name[k] = name[k-1];
+//				}
+//				name[0] = result[i].getName().substring(result[5].getName().lastIndexOf("/") + 1);
+//			}
+//		}
+//		System.out.println("Highest representet: " + name[0]);
+
 		return result;
+
 	}
 
 	public BufferedImage cropImage(BufferedImage image, String type){

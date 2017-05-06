@@ -127,7 +127,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		// load the crosshairs image (a transparent PNG)
 		crosshairs = loadImage(CROSSHAIRS_FNM);
 
-		faceRecog = new FaceRecognition(22); 
+		faceRecog = new FaceRecognition(75); 
 		faceRecogExtra = new ExtraMatch();
 		executor = Executors.newSingleThreadExecutor();
 		/* this executor manages a single thread with an unbounded queue.
@@ -257,7 +257,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		IplImage im = null;
 		try {
 			//im = grabber.grab();  // take a snap
-			//BAChange - Ændret fra ovenstående til nedenstående
+			//BAChange - Ændret fra ovenstående til nedenstående 
 			OpenCVFrameConverter.ToIplImage converter = new OpenCVFrameConverter.ToIplImage();
 			im = converter.convert(grabber.grab());
 
@@ -575,7 +575,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		MatchResult result = faceRecog.match(faceIm);
 		
 		System.out.println("PatternMatch starts\n" );
-		MatchResult patternResult = faceRecogExtra.patternMatching(faceIm, 6);
+		MatchResult[] patternResult = faceRecogExtra.patternMatching(faceIm, 6);
 //		System.out.println("PatterResultName = " + patternResult.getName().substring(patternResult.getName().lastIndexOf("/") + 1) +
 //				" Distance : " + patternResult.getMatchDistance());
 		System.out.println();
