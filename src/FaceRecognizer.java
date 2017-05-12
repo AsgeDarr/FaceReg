@@ -13,17 +13,10 @@
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.io.*;
 
-import org.bytedeco.javacv.*;
 import org.bytedeco.javacpp.*;
-import org.bytedeco.javacpp.videoInputLib.videoInput;
-
-import java.net.URL;
 
 
 
@@ -58,6 +51,7 @@ public class FaceRecognizer extends JFrame
 		//BAChange - button to search for people in the log
 		searchButton = new JButton("Search Person");
 		searchButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 			searchButton.setEnabled(false);
 			try {
@@ -72,10 +66,12 @@ public class FaceRecognizer extends JFrame
 		// button for recognizing a highlighted face
 		recogBut = new JButton("Recognize Face");
 		recogBut.addActionListener( new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{ nameField.setText("");
 			recogBut.setEnabled(false);
 			facePanel.setRecog();
+//			recogBut.setEnabled(true);
 			}
 		});
 
@@ -95,6 +91,7 @@ public class FaceRecognizer extends JFrame
 
 
 		addWindowListener( new WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent e)
 			{ facePanel.closeDown();    // stop snapping pics
 			System.exit(0);
@@ -112,6 +109,7 @@ public class FaceRecognizer extends JFrame
 	// update face name and its distance in the nameField; called from panel
 	{ 
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() 
 			{  nameField.setText( faceName + " (" + dist + ")"); 
 			recogBut.setEnabled(true);

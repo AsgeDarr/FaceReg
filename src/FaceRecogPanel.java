@@ -128,7 +128,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		crosshairs = loadImage(CROSSHAIRS_FNM);
 
 		faceRecog = new FaceRecognition(22); 
-		faceRecogExtra = new ExtraMatch();
+//		faceRecogExtra = new ExtraMatch();
 		executor = Executors.newSingleThreadExecutor();
 		/* this executor manages a single thread with an unbounded queue.
          Only one task can be executed at a time, the others wait.
@@ -410,15 +410,17 @@ public class FaceRecogPanel extends JPanel implements Runnable
 				detectStartTime = System.currentTimeMillis();
 				CvRect rect = findFace(grayIm);
 				if (rect != null) {
+//					System.out.println("rect not null");
 					setRectangle(rect);
 					if (recognizeFace) {
+//						System.out.println("recognizeFace = true");
 						recogFace(img);
 						//BAChanges - checking for another face
 						long detectDuration = System.currentTimeMillis() - detectStartTime;
 						System.out.println(" detection/recognition duration: " + detectDuration + "ms");
 						IplImage imgNew = prepImgForAnotherTest(img,rect.x()*IM_SCALE, rect.y()*IM_SCALE, rect.width()*IM_SCALE, rect.height()*IM_SCALE);
 						trackFace(imgNew);	
-						
+//						recognizeFace = false;
 					}
 				}else{
 					recognizeFace = false;
@@ -462,6 +464,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
      Also, use JavaCV's grayscale equalizer to improve the image.
 	 */
 	{
+//		System.out.println("findFace runs");
 		/*
      // show the greyscale image to check on image processing steps
      debugCanvas.showImage(grayIm);
@@ -575,7 +578,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		MatchResult result = faceRecog.match(faceIm);
 		
 		System.out.println("PatternMatch starts\n" );
-		MatchResult patternResult = faceRecogExtra.patternMatching(faceIm, 6);
+//		MatchResult patternResult = faceRecogExtra.patternMatching(faceIm, 6);
 //		System.out.println("PatterResultName = " + patternResult.getName().substring(patternResult.getName().lastIndexOf("/") + 1) +
 //				" Distance : " + patternResult.getMatchDistance());
 		System.out.println();
@@ -607,7 +610,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 				}
 
 			}
-
+//			System.out.println("Sets recogName");
 			top.setRecogName(faceName, distStr);
 		}
 		System.out.println("Match time: " + (System.currentTimeMillis() - startTime) + " ms");
