@@ -128,7 +128,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		crosshairs = loadImage(CROSSHAIRS_FNM);
 
 		faceRecog = new FaceRecognition(22); 
-//		faceRecogExtra = new ExtraMatch();
+		faceRecogExtra = new ExtraMatch();
 		executor = Executors.newSingleThreadExecutor();
 		/* this executor manages a single thread with an unbounded queue.
          Only one task can be executed at a time, the others wait.
@@ -578,7 +578,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		MatchResult result = faceRecog.match(faceIm);
 		
 		System.out.println("PatternMatch starts\n" );
-//		MatchResult patternResult = faceRecogExtra.patternMatching(faceIm, 6);
+		MatchResult patternResult = faceRecogExtra.patternMatching(faceIm, 6);
 //		System.out.println("PatterResultName = " + patternResult.getName().substring(patternResult.getName().lastIndexOf("/") + 1) +
 //				" Distance : " + patternResult.getMatchDistance());
 		System.out.println();
@@ -673,7 +673,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
             	newImage.setRGB(i, j, new Color(255, 0, 0, 0).getRGB());
             }
         }
- 		//ManuelCalc.saveImt("imgFaceBlackedOut", newImage);
+// 		ManuelCalc.saveImt("imgFaceBlackedOut", newImage);
 		return toIplImage(newImage);
 	}
 
