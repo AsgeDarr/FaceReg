@@ -92,18 +92,6 @@ public class JUnitTests {
 		
 	}
 	
-	
-//	@Test
-//	public void testZeroNumEigenFaces() throws IOException{
-//		
-//		System.setErr(new PrintStream(errMessage));
-//		ManuelMatching ManuelMatchingTestError = new ManuelMatching(0);
-//		String errString = ("Number of matching eigenfaces must be in the range (1-" 
-//		+ (0-1) + ")" + "; using " + 0);
-//		assertEquals(errString,errMessage.toString());
-//		System.setErr(null);
-//	}
-	
 //	-------------------- Logging --------------------
 	@Test
 	public void testLogValues(){

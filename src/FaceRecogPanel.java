@@ -538,7 +538,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 	 */
 	{
 		//BAChanges - save af billeder
-//		ManuelCalc.saveImt("01_img_raw", IplImageToBufferedImage(img));
+		ManuelCalc.saveImt("01_img_raw", IplImageToBufferedImage(img));
 
 		BufferedImage clipIm = null;
 		synchronized(faceRect) {
@@ -664,7 +664,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
 		BufferedImage newImage = IplImageToBufferedImage(img);
 		//BAChanges - howCloseToTheMiddelSaclingFactor -
 		//The closer to zero howCloseToTheMiddel is the longer away from the cam is the face
-		double howCloseToTheMiddelSaclingFactor =  Math.abs(img.width()/2-x)*0.014;
+		double howCloseToTheMiddelSaclingFactor =  Math.abs(img.width()/2-x)*0.1;
 		int scaling = (int) Math.round(40/howCloseToTheMiddelSaclingFactor);
 //		System.out.println("Scaling = " + howCloseToTheMiddelSaclingFactor + " calc = " + scaling);
 		
@@ -673,7 +673,7 @@ public class FaceRecogPanel extends JPanel implements Runnable
             	newImage.setRGB(i, j, new Color(255, 0, 0, 0).getRGB());
             }
         }
-// 		ManuelCalc.saveImt("imgFaceBlackedOut", newImage);
+ 		ManuelCalc.saveImt("imgFaceBlackedOut", newImage);
 		return toIplImage(newImage);
 	}
 

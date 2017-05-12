@@ -71,7 +71,6 @@ public class FaceRecognizer extends JFrame
 			{ nameField.setText("");
 			recogBut.setEnabled(false);
 			facePanel.setRecog();
-//			recogBut.setEnabled(true);
 			}
 		});
 
@@ -134,7 +133,7 @@ public class FaceRecognizer extends JFrame
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-//		
+		
 		
 //		//BAChanges - manuel udregning af afstand
 //		BufferedImage img = null;

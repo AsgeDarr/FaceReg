@@ -25,6 +25,14 @@ public class ExtraMatch {
 	private FaceRecognitionMultiBundle faceRecogMulBunRight = null;
 
 	public ExtraMatch(){
+		
+		try {
+			buildEigenFacesPatterns();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		faceRecogMulBunTopLeft = new FaceRecognitionMultiBundle(35,"topLeft");
 		faceRecogMulBunTopRight = new FaceRecognitionMultiBundle(35,"topRight");
 		faceRecogMulBunTop = new FaceRecognitionMultiBundle(35,"top");
