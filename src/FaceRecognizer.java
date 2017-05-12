@@ -34,7 +34,7 @@ public class FaceRecognizer extends JFrame
 	private FaceRecogPanel facePanel;
 	private JButton recogBut;
 	private JTextField nameField;   // where the name (and distance info) appears
-
+	
 	//BAChanges - fields for searching in logs
 	private JTextField searchField;
 	private JButton searchButton;
@@ -59,13 +59,13 @@ public class FaceRecognizer extends JFrame
 		searchButton = new JButton("Search Person");
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				searchButton.setEnabled(false);
-				try {
-					log.setLogSearch(searchField.getText());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				searchButton.setEnabled(true);
+			searchButton.setEnabled(false);
+			try {
+				log.setLogSearch(searchField.getText());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			searchButton.setEnabled(true);
 			}
 		});
 
@@ -84,7 +84,7 @@ public class FaceRecognizer extends JFrame
 
 		searchField = new JTextField(8);   // for the name of the recognized face
 		searchField.setEditable(true);
-
+		
 		JPanel p = new JPanel();
 		p.add(searchButton);
 		p.add(searchField);
@@ -125,36 +125,36 @@ public class FaceRecognizer extends JFrame
 	public static void main( String args[] )
 	{ 
 		new FaceRecognizer();  
-
-
-		//Building images
+		
+		
+//		//Building images
 //		ExtraMatch EM = new ExtraMatch();
-//
+//		
 //		try {
 //			EM.buildEigenFacesPatterns();
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		//		
-
-		//		//BAChanges - manuel udregning af afstand
-		//		BufferedImage img = null;
-		//		try {
-		//		    img = ImageIO.read(new File("03_img_resize.png"));
-		//		} catch (IOException e) {
-		//		}
-		//		
-		//		ManuelMatching ManuelCalc = new ManuelMatching(22);
-		//		try {
-		//			ManuelCalc.findMatch(img);
-		//		} catch (IOException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
-
+//		
+		
+//		//BAChanges - manuel udregning af afstand
+//		BufferedImage img = null;
+//		try {
+//		    img = ImageIO.read(new File("03_img_resize.png"));
+//		} catch (IOException e) {
+//		}
+//		
+//		ManuelMatching ManuelCalc = new ManuelMatching(22);
+//		try {
+//			ManuelCalc.findMatch(img);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 	}
-
-
+	
+	
 
 } // end of FaceRecognizer class
